@@ -1,0 +1,8 @@
+{
+  "name": "speaker",
+  "version": "0.0.0",
+  "ignore": [
+    "**/.*",
+    "components"
+  ]
+}
