@@ -2,24 +2,37 @@
  * Created by pavel on 11/17/13.
  */
 
+var DEFAULTS = {
+    'cs' : 'Tak tohle je paráda',
+    'en' : 'Well, this is cool'
+};
+
 // connect Speaker to the input form
 $('form').submit(function(e) {
+
+    e.preventDefault();
 
     var speech = $('input:text').val();
     var lang = $('input:radio[name=lang]:checked').val();
 
-    Speaker.speak(speech, lang);
+    console.log('Speaking in ' + lang + ': ' + speech);
+    var speaker = new Speaker();
+    speaker.speak(speech, lang);
 
-    e.preventDefault();
 
 });
 
+var fillLanguageSentence = function(language) {
+    var speechInput = $('input:text');
+    if (DEFAULTS[language]) {
+        speechInput.val(DEFAULTS[language]);
+    }
+}
+
 // make sure Czech input will not contain the original phrase by default
 $( "input[type=radio]" ).change(function(e) {
-    var speechInput = $('input:text');
-    if (e.target.id === 'cs' && speechInput.val() === 'This is amazing') {
-        speechInput.val('Tak tohle je paráda');
-    } else if (e.target.id === 'en' && speechInput.val() === 'Tak tohle je paráda') {
-        speechInput.val('This is amazing');
-    }
+    fillLanguageSentence(e.target.id);
+});
+$(document).ready(function() {
+    fillLanguageSentence('en');
 });

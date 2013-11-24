@@ -2,27 +2,37 @@
  * Created by pavel on 11/17/13.
  */
 
-Speaker = (function($) {
-
-    this.audioContainer = 'body';
+function Speaker() {
     this.defaultLanguage = 'en';
+    this.audioElementId = 'speaker_audio_element';
+    this.audioContainerId = 'audio_container';
+};
 
-    this.speak = function(speech, language) {
+Speaker.prototype.speak = function(speech, language) {
 
-        if (!language) {
-            language = this.defaultLanguage;
-        }
+    if (!language) {
+        language = this.defaultLanguage;
+    }
 
-        var soundUrl = 'http://translate.google.com/translate_tts?tl=' + language + '&q=' + speech;
+    var soundUrl = 'http://translate.google.com/translate_tts?tl=' + language + '&q=' + speech;
 
-        $('<audio />').appendTo(this.audioContainer).attr("src", soundUrl);
+    var audioElement = document.getElementById(this.audioElementId);
 
-        document.getElementsByTagName('audio')[0].play();
+    if (!audioElement) {
+        audioElement = this.insertAudioElement();
+    }
 
-        // the audio element should be reused or removed after
+    audioElement.setAttribute("src", soundUrl);
+    audioElement.play();
 
-    };
+};
 
-    return this;
+Speaker.prototype.insertAudioElement = function () {
+    var audioElement = document.createElement('audio');
+    audioElement.setAttribute('id', this.audioElementId);
 
-}(jQuery));
+    var container = document.getElementById(this.audioContainerId);
+    container.innerHTML = audioElement;
+
+    return audioElement;
+};
