@@ -14,7 +14,7 @@ Speaker.prototype.speak = function(speech, language) {
         language = this.defaultLanguage;
     }
 
-    var soundUrl = 'http://translate.google.com/translate_tts?tl=' + language + '&q=' + speech;
+    var soundUrl = 'http://translate.google.com/translate_tts?tl=' + language + '&q=' + encodeURIComponent(speech);
 
     var audioElement = document.getElementById(this.audioElementId);
 
